@@ -7,6 +7,8 @@ namespace ProductWebAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+
+
 public class CategoryController : ControllerBase
 {
     private readonly AppDbContext _context;

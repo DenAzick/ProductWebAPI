@@ -21,10 +21,10 @@ public class FileHelper
         return await SaveFile(file, "ProductFiles");
     }
 
-    public static async Task<string> SaveCategoryFile(IFormFile file)
-    {
-        return await SaveFile(file, "CategoryFiles");
-    }
+    //public static async Task<string> SaveCategoryFile(IFormFile file)
+    //{
+    //    return await SaveFile(file, "CategoryFiles");
+    //}
 
     public static async Task<string> SaveFile(IFormFile file, string folder)
     {

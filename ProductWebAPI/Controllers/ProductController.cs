@@ -55,7 +55,7 @@ namespace ProductWebAPI.Controllers
                 Name = createProductDto.Name,
                 Price = createProductDto.Price,
                 CategoryId = createProductDto.CategoryId,
-                PhotoUrl = await FileHelper.SaveProductFile(createProductDto.PhotoUrl),
+                //PhotoUrl = await FileHelper.SaveProductFile(createProductDto.PhotoUrl)
             };
             _context.Products.Add(product);
             await _context.SaveChangesAsync();

@@ -1,10 +1,20 @@
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.EntityFrameworkCore;
 using ProductWebAPI.Context;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+var logger = new LoggerConfiguration()
+    .WriteTo.File("Logs/log.txt")
+    .WriteTo.Console()
+    .CreateLogger();
+
+
+builder.Logging.AddSerilog();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
