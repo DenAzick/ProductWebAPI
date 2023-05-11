@@ -9,8 +9,5 @@ public class Product
     public Guid CategoryId { get; set; }
     public Category Category { get; set; }
 
-    public static implicit operator Product(Product v)
-    {
-        throw new NotImplementedException();
-    }
+    
 }
