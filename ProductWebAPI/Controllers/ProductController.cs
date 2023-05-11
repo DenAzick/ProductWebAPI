@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProductWebAPI.Context;
+using ProductWebAPI.Helpers;
 using ProductWebAPI.Models;
 
 namespace ProductWebAPI.Controllers
@@ -40,7 +41,7 @@ namespace ProductWebAPI.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateProductDto createProductDto)
+        public async Task<IActionResult> Create([FromForm] CreateProductDto createProductDto)
         {
             if (createProductDto.CategoryId != null
                 && !await _context.Categories
@@ -54,6 +55,7 @@ namespace ProductWebAPI.Controllers
                 Name = createProductDto.Name,
                 Price = createProductDto.Price,
                 CategoryId = createProductDto.CategoryId,
+                PhotoUrl = await FileHelper.SaveProductFile(createProductDto.PhotoUrl),
             };
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
