@@ -17,11 +17,43 @@ public class CategoryController : ControllerBase
         _context = context;
     }
 
+
+
     [HttpGet]
-    public async Task<List<Category>> GetList()
+    public async Task<List<CategoryDto>> GetList()
     {
-        return await _context.Categories.ToListAsync();
+        var categories = await _context.Categories
+            .Where(c => c.ParentId == null)
+            .ToListAsync();
+
+        return await MapTo(categories);
     }
+
+    private async Task<List<CategoryDto>> MapTo(List<Category> categories)
+    {
+        var categoriesDto = new List<CategoryDto>();
+
+        foreach (var category in categories)
+        {
+            categoriesDto.Add(await MapToDto(category));
+        }
+        return categoriesDto;
+    }
+
+
+    public async Task<CategoryDto> MapToDto(Category category)
+    {
+        await _context.Entry(category).Collection(c => c.Children).LoadAsync();
+        return new CategoryDto
+        {
+            Id = category.Id,
+            Name = category.Name,
+            Children = await MapTo(category.Children)
+        };
+
+
+    }
+
 
 
     [HttpGet]
@@ -42,7 +74,7 @@ public class CategoryController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateCategoryDto createCategoryDto)
     {
-        if (createCategoryDto.ParentId != null 
+        if (createCategoryDto.ParentId != null
             && !await _context.Categories
             .AnyAsync(c => c.Id == createCategoryDto.ParentId))
         {

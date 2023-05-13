@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProductWebAPI.Context;
 using ProductWebAPI.Helpers;
@@ -55,7 +54,7 @@ namespace ProductWebAPI.Controllers
                 Name = createProductDto.Name,
                 Price = createProductDto.Price,
                 CategoryId = createProductDto.CategoryId,
-                //PhotoUrl = await FileHelper.SaveProductFile(createProductDto.PhotoUrl)
+                PhotoUrl = await FileHelper.SaveProductFile(createProductDto.PhotoUrl)
             };
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
