@@ -29,19 +29,10 @@ public class CategoryController : ControllerBase
         return await MapTo(categories);
     }
 
-    private async Task<List<CategoryDto>> MapTo(List<Category> categories)
-    {
-        var categoriesDto = new List<CategoryDto>();
-
-        foreach (var category in categories)
-        {
-            categoriesDto.Add(await MapToDto(category));
-        }
-        return categoriesDto;
-    }
+   
 
 
-    public async Task<CategoryDto> MapToDto(Category category)
+    private async Task<CategoryDto> MapToDto(Category category)
     {
         await _context.Entry(category).Collection(c => c.Children).LoadAsync();
         return new CategoryDto
@@ -54,7 +45,16 @@ public class CategoryController : ControllerBase
 
     }
 
+    private async Task<List<CategoryDto>> MapTo(List<Category> categories)
+    {
+        var categoriesDto = new List<CategoryDto>();
 
+        foreach (var category in categories)
+        {
+            categoriesDto.Add(await MapToDto(category));
+        }
+        return categoriesDto;
+    }
 
     [HttpGet]
     [Route("{id}")]
